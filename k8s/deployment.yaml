@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-echo
+  labels:
+    app: tcp-echo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tcp-echo
+  template:
+    metadata:
+      labels:
+        app: tcp-echo
+    spec:
+      containers:
+        - name: tcp-echo
+          image: tcp-echo:latest
+          ports:
+            - containerPort: 9095
+              protocol: TCP
+          args: ["-port", "9095"]
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "64Mi"
+          readinessProbe:
+            tcpSocket:
+              port: 9095
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 9095
+            initialDelaySeconds: 5
+            periodSeconds: 10
