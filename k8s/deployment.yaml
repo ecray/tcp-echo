@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tcp-echo
-          image: tcp-echo:latest
+          image: "ghcr.io/ecray/tcp-echo:pr--6c99c62"
           ports:
             - containerPort: 9095
               protocol: TCP
